@@ -1,9 +1,26 @@
 <html>
 <head>
+
 <title>hebrew_letter_classificaition</title>
+
 <script src="scripts/reset_canvas_func.js"></script>
 <script src="scripts/canvas_func.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js">
+	import * as tf from '@tensorflow/tfjs';
+	import {loadGraphModel} from '@tensorflow/tfjs-converter';
+</script>
+
+<script>
+	const cnn = async () => {
+		console.log(111);
+		
+		const model = await tf.loadLayersModel('./files/pretrained_models/model.json');
+		// const model = await loadGraphModel('./files/pretrained_models/model.json');
+	}
+</script>
+
 <link rel="stylesheet" href="style/style.css">
+
 <script>
 	window.onload = function() {
 		canvas_func();
@@ -31,5 +48,10 @@
 	</div>
 	<div id="img_dataset"></div>
 	<canvas id="hidden_canvas" width="200px" height="200px"></canvas>
+	
+	
+	<script>
+		cnn();
+	</script>
 </body>
 </html>

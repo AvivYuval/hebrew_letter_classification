@@ -1,4 +1,8 @@
-function canvas_func() {
+async function canvas_func() {
+	
+	// const model = await tf.loadLayersModel('../files/pretrained_models/model.json');
+	// const model = await loadGraphModel('../files/pretrained_models/model.json');
+	
 	var canvas;
 	var context;
 	const w = 200;
@@ -31,7 +35,7 @@ function canvas_func() {
 		C = [];
 	});
 	// document.getElementById("reset_button").onmouseup = clear; // move clear to reset_canvas_func.js
-	document.getElementById("submit_button").addEventListener("click", function() {
+	document.getElementById("submit_button").addEventListener("click", async function() {
 		var I;
 		
 		for (let i = 0; i < arr.length; i+=4) {
@@ -100,6 +104,12 @@ function canvas_func() {
 		document.getElementById('img_dataset').innerHTML += "<img src="+dataURL+">";
 		
 		console.log(C);
+		
+		
+		// Load a pretrained cnn model
+		// import * as tf from '@tensorflow/tfjs';
+		// const model = await tf.loadLayersModel('../files/pretrained_models/model.json');
+		// const model = await loadGraphModel('../files/pretrained_models/model.json');
 	});
 	
 	function startDrawing(e) {
