@@ -1,0 +1,41 @@
+window.onload = function() {
+
+	   canvas = document.getElementById('canvas');
+	   context = canvas.getContext('2d');
+	   
+	   context.strokeStyle = "#913d88";
+	   context.lineWidth = 10;
+	   	
+		
+	   canvas.onmousedown = startDrawing;
+	   canvas.onmouseup = stopDrawing;
+	   canvas.onmousemove = draw;
+	      
+	   function startDrawing(e) {
+		  isDrawing = true;
+		  context.beginPath();
+		  context.moveTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+	   }
+	   
+	   function draw(e) {
+		  var x = e.pageX - canvas.offsetLeft;
+		  var y = e.pageY - canvas.offsetTop;
+		  document.getElementById("x_mouse").innerHTML = "mouse x:" + x;
+		  document.getElementById("y_mouse").innerHTML = "mouse y:" + y;
+		  if (isDrawing == true) {  
+			 context.lineTo(x, y);
+			 context.stroke();
+			 
+			 X.push(x);
+			 Y.push(y);
+			 
+			 document.getElementById("x_draw").innerHTML = "x:" + x;
+			 document.getElementById("y_draw").innerHTML = "y:" + y;
+		  }
+	   }
+	   
+	   function stopDrawing() {
+		  isDrawing = false;
+		  console.log(X);
+	   }
+	}

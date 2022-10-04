@@ -1,9 +1,35 @@
 <html>
 <head>
 <title>hebrew_letter_classificaition</title>
+<script src="scripts/reset_canvas_func.js"></script>
+<script src="scripts/canvas_func.js"></script>
+<link rel="stylesheet" href="style/style.css">
+<script>
+	window.onload = function() {
+		canvas_func();
+	}
+</script>
+
 </head>
 
 <body>
-<div>hebrew_letter_classificaition</div>
+	<h6>hebrew_letter_classificaition</h6>
+	
+	<div id="canvas_main">
+		<canvas id="canvas" width="200px" height="200px"></canvas>
+		<div id="canvas_buttons">
+			<button id="submit_button" width="50px" height="20px">Predict</button>
+			<button id="reset_button" width="50px" height="20px" onClick="reset_canvas_func()">Reset</button>
+		</div>
+	</div>
+	<br>
+	<div>
+		<p id='x_draw'>drawn x</p>
+		<p id='y_draw'>drawn y</p>
+		<p id='x_mouse'>mouse x</p>
+		<p id='y_mouse'>mouse y</p>
+	</div>
+	<div id="img_dataset"></div>
+	<canvas id="hidden_canvas" width="200px" height="200px"></canvas>
 </body>
 </html>
