@@ -1,4 +1,34 @@
-async function canvas_func() {
+async function start(){
+	model = await tf.loadModel('.\files\pretrained_models.json');
+
+	// var status = document.getElementById('status')
+
+	// status.innerHTML = 'Model Loaded'
+
+	// document.getElementById('status').innerHTML = 'Model Loaded';
+
+
+	// img = document.getElementById('list').firstElementChild.firstElementChild;
+	// model.predict(tf.zeros([null,50,50,3]))
+
+	// load the class names
+	// await loadDict()
+}
+
+function preprocess(img){
+	//convert the image data to a tensor 
+	let tensor = tf.browser.fromPixels(img);
+	//resize to 50 X 50
+	const resized = tf.image.resizeBilinear(tensor, [50, 50]).toFloat();
+	// Normalize the image 
+	const offset = tf.scalar(255.0);
+	const normalized = tf.scalar(1.0).sub(resized.div(offset));
+	//We add a dimension to get a batch shape 
+	const batched = normalized.expandDims(0);
+	return batched;
+}
+
+function canvas_func() {
 	
 	// const model = await tf.loadLayersModel('../files/pretrained_models/model.json');
 	// const model = await loadGraphModel('../files/pretrained_models/model.json');
@@ -11,12 +41,10 @@ async function canvas_func() {
 	const arr = new Uint8ClampedArray(w*h*c);
 	var N = 0;
 	var C = [];
-	// var Y = [];
 	var isDrawing;
 
 	canvas = document.getElementById('canvas');
 	context = canvas.getContext('2d');
-	// ctx = canvas.getContext('2d');
 
 	context.strokeStyle = "black";
 	context.lineWidth = 5;
@@ -25,16 +53,12 @@ async function canvas_func() {
 	canvas.addEventListener("mousemove", function(e) { draw(e); } );
 	
 	addEventListener("mouseup", function() {
-		// console.log(X);
-		// var dataURL = canvas.toDataURL();
-		// document.getElementById('img_dataset').innerHTML += "<img src="+dataURL+">";
 		isDrawing = false;
 	});
 
 	document.getElementById("reset_button").addEventListener("click", function() {
 		C = [];
 	});
-	// document.getElementById("reset_button").onmouseup = clear; // move clear to reset_canvas_func.js
 	document.getElementById("submit_button").addEventListener("click", async function() {
 		var I;
 		
@@ -47,8 +71,6 @@ async function canvas_func() {
 		
 		for (let o=0; o<C.length; o++) {
 		
-			// if (X.length > 0) {
-			
 			// Round all coordinates
 			for (let i=0; i<C[o].x.length; i++) {
 				C[o].x[i] = Math.round(C[o].x[i]);
@@ -101,9 +123,14 @@ async function canvas_func() {
 		let imageData = new ImageData(arr, w);
 		document.getElementById("hidden_canvas").getContext('2d').putImageData(imageData, 0, 0);
 		var dataURL = document.getElementById("hidden_canvas").toDataURL();
-		document.getElementById('img_dataset').innerHTML += "<img src="+dataURL+">";
+		document.getElementById('img_dataset').innerHTML += "<img id='img' src="+dataURL+">";
+		const img_tf = preprocess(imageData);
+		start();
+		console.log(model.predict(img_tf));
 		
-		console.log(C);
+		
+		
+		// console.log(C);
 		
 		
 		// Load a pretrained cnn model
@@ -122,12 +149,13 @@ async function canvas_func() {
 		C.push({x: [], y: []});
 		N = C.length; // Number of line objects.
 		
-		// ctx.beginPath();
-		// ctx.arc(x, y, 0.3, 0, 2 * Math.PI);
-		// ctx.fill();
-		// ctx.stroke();
-		// X.push(x);
-		// Y.push(y);
+		context.beginPath();
+		context.arc(x, y, 0.3, 0, 2 * Math.PI);
+		context.fill();
+		context.stroke();
+		C[N-1].x.push(x);
+		C[N-1].y.push(y);
+		
 		document.getElementById("x_draw").innerHTML = "drawn x:" + x;
 		document.getElementById("y_draw").innerHTML = "drawn y:" + y;
 	}
@@ -144,7 +172,6 @@ async function canvas_func() {
 
 			C[N-1].x.push(x);
 			C[N-1].y.push(y);
-			// Y.push(y);
 
 			document.getElementById("x_draw").innerHTML = "drawn x:" + x;
 			document.getElementById("y_draw").innerHTML = "drawn y:" + y;

@@ -4,19 +4,22 @@
 <title>hebrew_letter_classificaition</title>
 
 <script src="scripts/reset_canvas_func.js"></script>
-<script src="scripts/canvas_func.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js">
-	import * as tf from '@tensorflow/tfjs';
-	import {loadGraphModel} from '@tensorflow/tfjs-converter';
+<script src="scripts/canvas_func.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest">
+	/* import * as tf from '@tensorflow/tfjs';
+	import {loadGraphModel} from '@tensorflow/tfjs-converter'; */
 </script>
 
 <script>
-	const cnn = async () => {
+	// model = await tf.loadModel('model/model.json')
+	/* const cnn = async () => {
 		console.log(111);
 		
-		const model = await tf.loadLayersModel('./files/pretrained_models/model.json');
+		const model = await tf.loadLayersModel('https://github.com/AvivYuval/hebrew_letter_classification/tree/main/files/pretrained_models/model.json');
+		// const model = await tf.loadLayersModel('./files/pretrained_models/model.json');
+		
 		// const model = await loadGraphModel('./files/pretrained_models/model.json');
-	}
+	} */
 </script>
 
 <link rel="stylesheet" href="style/style.css">
@@ -47,11 +50,11 @@
 		<p id='y_mouse'>mouse y</p>
 	</div>
 	<div id="img_dataset"></div>
-	<canvas id="hidden_canvas" width="200px" height="200px"></canvas>
+	<canvas id="hidden_canvas" width="200" height="200"></canvas>
 	
 	
 	<script>
-		cnn();
+		// cnn();
 	</script>
 </body>
 </html>
