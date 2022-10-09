@@ -1,40 +1,56 @@
-async function start(){
-	model = await tf.loadModel('.\files\pretrained_models.json');
+// <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
+// <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.5.2/dist/tf.min.js"></script>
 
+async function start() {
+	// var model = await tf.loadLayersModel('//C:/Users/AvivYuval/Documents/projects/hebrew_letter_classification/files/pretrained_models/model.json');
+	// model = await tf.loadLayersModel('..\files\pretrained_models\model.json');
+	// var model = await tf.loadLayersModel('localstorage://C:/Users/AvivYuval/Documents/projects/hebrew_letter_classification/files/pretrained_models/model.json');
+	var model = undefined;
+	model = await tf.loadLayersModel('https://raw.githubusercontent.com/AvivYuval/hebrew_letter_classification/main/files/pretrained_models/model.json');
+	// var model = await tf.Model('https://github.com/AvivYuval/hebrew_letter_classification/tree/main/files/pretrained_models/model.json');
+	// console.log(1)
+
+
+	// return model;
+	
 	// var status = document.getElementById('status')
 
 	// status.innerHTML = 'Model Loaded'
 
 	// document.getElementById('status').innerHTML = 'Model Loaded';
-
-
+	
 	// img = document.getElementById('list').firstElementChild.firstElementChild;
-	// model.predict(tf.zeros([null,50,50,3]))
+	// model.predict(img_tf)
+	// console.log(2)
 
 	// load the class names
 	// await loadDict()
+	
+	return model;
 }
+// start();
 
-function preprocess(img){
-	//convert the image data to a tensor 
-	let tensor = tf.browser.fromPixels(img);
-	//resize to 50 X 50
-	const resized = tf.image.resizeBilinear(tensor, [50, 50]).toFloat();
-	// Normalize the image 
+function preprocess(img) {
+	let tensor = tf.browser.fromPixels(img); // Convert the image data to a tensor.
+	
+	// const resized = tf.image.resizeBilinear(tensor, [50, 50]).toFloat(); // Resize to 50 X 50.
+	const resized = tf.image.resizeBilinear(tensor, [50, 50],false, true).toFloat(); // Resize to 50 X 50.
+	// const resized = tf.image.resizeBilinear(tensor, [50, 50],true).toFloat(); // Resize to 50 X 50.
+	
+	// Normalize the image
 	const offset = tf.scalar(255.0);
 	const normalized = tf.scalar(1.0).sub(resized.div(offset));
-	//We add a dimension to get a batch shape 
-	const batched = normalized.expandDims(0);
-	return batched;
+	
+	const batched = normalized.expandDims(0).min(3,true); // Add a dimension to get a batch shape [n,w,h,1].
+	
+	return batched; 
 }
 
 function canvas_func() {
 	
-	// const model = await tf.loadLayersModel('../files/pretrained_models/model.json');
-	// const model = await loadGraphModel('../files/pretrained_models/model.json');
-	
 	var canvas;
 	var context;
+	var ctx;
 	const w = 200;
 	const h = 200;
 	const c = 4;
@@ -42,10 +58,11 @@ function canvas_func() {
 	var N = 0;
 	var C = [];
 	var isDrawing;
-
+	
 	canvas = document.getElementById('canvas');
 	context = canvas.getContext('2d');
-
+	ctx = document.getElementById('chart').getContext('2d');
+	
 	context.strokeStyle = "black";
 	context.lineWidth = 5;
 	
@@ -55,7 +72,7 @@ function canvas_func() {
 	addEventListener("mouseup", function() {
 		isDrawing = false;
 	});
-
+	
 	document.getElementById("reset_button").addEventListener("click", function() {
 		C = [];
 	});
@@ -63,9 +80,9 @@ function canvas_func() {
 		var I;
 		
 		for (let i = 0; i < arr.length; i+=4) {
-			arr[i] = 0;
-			arr[i + 1] = 0;
-			arr[i + 2] = 0;
+			arr[i] = 255;
+			arr[i + 1] = 255;
+			arr[i + 2] = 255;
 			arr[i + 3] = 255;
 		}
 		
@@ -112,9 +129,9 @@ function canvas_func() {
 			
 			for (let i = 0; i < n; i++) {
 				I = (C[o].x[i] + C[o].y[i]*w) * c;
-				arr[I] = 255;    // R value
-				arr[I + 1] = 255;  // G value
-				arr[I + 2] = 255;    // B value
+				arr[I] = 0;    // R value
+				arr[I + 1] = 0;  // G value
+				arr[I + 2] = 0;    // B value
 				arr[I + 3] = 255;  // A value
 			}
 		}
@@ -122,21 +139,65 @@ function canvas_func() {
 		// Initialize a new ImageData object
 		let imageData = new ImageData(arr, w);
 		document.getElementById("hidden_canvas").getContext('2d').putImageData(imageData, 0, 0);
+		
 		var dataURL = document.getElementById("hidden_canvas").toDataURL();
 		document.getElementById('img_dataset').innerHTML += "<img id='img' src="+dataURL+">";
-		const img_tf = preprocess(imageData);
-		start();
-		console.log(model.predict(img_tf));
 		
+		var img_tf = preprocess(imageData);
 		
+		const model = await start();
 		
-		// console.log(C);
+		// const result = await model.predict(img_tf).dataSync();
+		const result = await model.predict(img_tf);
+		// const result = model.predict(img_tf).argMax([-1]);
 		
+		const result_arr = Array.from(result.dataSync());
+		// const result_arr = Array.from(result.round().dataSync());
 		
-		// Load a pretrained cnn model
-		// import * as tf from '@tensorflow/tfjs';
-		// const model = await tf.loadLayersModel('../files/pretrained_models/model.json');
-		// const model = await loadGraphModel('../files/pretrained_models/model.json');
+		// console.log(result);
+		console.log(result.round().print());
+		console.log(result_arr);
+		console.log(result_arr.indexOf(Math.max(...result_arr)));
+
+		document.getElementById('chart').innerHTML += "<img id='img' src="+dataURL+">";
+		var labels = [];
+		for (let i=0; i<result_arr.length; i++) {
+			labels.push(i)
+		}
+		const myChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: labels,
+				datasets: [{
+					label: '# of Votes',
+					data: result_arr,
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+						'rgba(54, 162, 235, 0.2)',
+						'rgba(255, 206, 86, 0.2)',
+						'rgba(75, 192, 192, 0.2)',
+						'rgba(153, 102, 255, 0.2)',
+						'rgba(255, 159, 64, 0.2)'
+					],
+					borderColor: [
+						'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+						'rgba(75, 192, 192, 1)',
+						'rgba(153, 102, 255, 1)',
+						'rgba(255, 159, 64, 1)'
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true
+					}
+				}
+			}
+		});
 	});
 	
 	function startDrawing(e) {

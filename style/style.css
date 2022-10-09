@@ -41,7 +41,12 @@ body {
 #img {
 	width: 100px;
 	height: 100px;
-	margin: 3px
+	margin: 3px;
+}
+
+#chart_div {
+	right: 20px;
+	top: 20px;
 }
 
 #reset_button, #submit_button {
