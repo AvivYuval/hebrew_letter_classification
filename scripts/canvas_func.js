@@ -1,5 +1,6 @@
-// <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
-// <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.5.2/dist/tf.min.js"></script>
+/* <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script> 
+<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>*/
 
 async function start() {
 	// var model = await tf.loadLayersModel('//C:/Users/AvivYuval/Documents/projects/hebrew_letter_classification/files/pretrained_models/model.json');
