@@ -13,15 +13,13 @@ body {
 	height: 220px; */
 	border: 1px solid red;
 	margin: 0;
-	width: 200px;
+	width: 406px;
 	height: 231px;
 }
 
 #canvas_buttons {
 	width: 200px;
 	height: 30px;
-	/* display: flex;
-	flex-flow: row nowrap; */
 	border: 1px solid green;
 }
 
@@ -44,12 +42,21 @@ body {
 	margin: 3px;
 }
 
-#chart_div {
-	right: 20px;
-	top: 20px;
+#img_dataset{
+	border: 1px solid black;
 }
 
-#reset_button, #submit_button {
+#canvas_chart {
+	position: relative;
+	right: -204px;
+	top: -234px;
+	width: 200px;
+	height: 200px;
+	border: 1px solid blue;
+	background: #ecf0f1;
+}
+
+#reset_button, #submit_button, #send_button {
 	background-color: #4CAF50; /* Green */
 	color: black;
 	/* padding: 15px 32px;
@@ -64,12 +71,12 @@ body {
 	cursor: pointer
 }
 
-#reset_button:hover, #submit_button:hover {
+#reset_button:hover, #submit_button:hover, #send_button:hover {
 	color: white;
 	border: 2px solid white;
 }
 
-#reset_button:active, #submit_button:active {
+#reset_button:active, #submit_button:active, #send_button:active {
 	background-color: #3e8e41;
 	box-shadow: 0 2px #666;
 	transform: translateY(2px);

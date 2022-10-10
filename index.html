@@ -29,6 +29,9 @@
 			<button id="submit_button" width="50px" height="20px">Predict</button>
 			<button id="reset_button" width="50px" height="20px" onClick="reset_canvas_func()">clear</button>
 		</div>
+		<div id="canvas_chart">		
+			<canvas id="chart" width="100" height="100"></canvas>
+		</div>
 	</div>
 	<br>
 	<div>
@@ -38,9 +41,10 @@
 		<p id='y_mouse'>mouse y</p>
 	</div>
 	<div id="img_dataset"></div>
-	<canvas id="hidden_canvas" width="200" height="200"></canvas>
-	<div id="chart_div">
-	<canvas id="chart" width="400" height="400"></canvas>
+	<div id="img_dataset">
+		<button id="send_button" width="50px" height="20px">send</button>
 	</div>
+	
+	<canvas id="hidden_canvas" width="200" height="200"></canvas>
 </body>
 </html>

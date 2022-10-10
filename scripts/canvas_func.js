@@ -156,49 +156,53 @@ function canvas_func() {
 		// const result_arr = Array.from(result.round().dataSync());
 		
 		// console.log(result);
-		console.log(result.round().print());
+		// console.log(result.round().print());
 		console.log(result_arr);
-		console.log(result_arr.indexOf(Math.max(...result_arr)));
+		// console.log(result_arr.indexOf(Math.max(...result_arr)));
 
-		document.getElementById('chart').innerHTML += "<img id='img' src="+dataURL+">";
 		var labels = [];
 		for (let i=0; i<result_arr.length; i++) {
 			labels.push(i)
 		}
 		const myChart = new Chart(ctx, {
 			type: 'bar',
+			// defaults:{global:{tooltips:{caretSize:3}}},
 			data: {
 				labels: labels,
+				yAxisID: 'y',
 				datasets: [{
-					label: '# of Votes',
 					data: result_arr,
 					backgroundColor: [
 						'rgba(255, 99, 132, 0.2)',
 						'rgba(54, 162, 235, 0.2)',
-						'rgba(255, 206, 86, 0.2)',
-						'rgba(75, 192, 192, 0.2)',
-						'rgba(153, 102, 255, 0.2)',
-						'rgba(255, 159, 64, 0.2)'
 					],
 					borderColor: [
 						'rgba(255, 99, 132, 1)',
 						'rgba(54, 162, 235, 1)',
-						'rgba(255, 206, 86, 1)',
-						'rgba(75, 192, 192, 1)',
-						'rgba(153, 102, 255, 1)',
-						'rgba(255, 159, 64, 1)'
 					],
 					borderWidth: 1
 				}]
 			},
 			options: {
+				legend: {
+				  display: false
+				},
 				scales: {
-					y: {
-						beginAtZero: true
-					}
+					yAxes: [{
+						ticks: {
+							beginAtZero: true,
+							max: 1
+						}
+					}]
 				}
 			}
 		});
+		document.getElementById('img_dataset').innerHTML += result_arr.indexOf(Math.max(...result_arr));
+		});
+	document.getElementById('send_button').addEventListener("click",  function() {
+		var email_adress = 'mailto:avivyuval2004@gmail.com'+'?subject= Add_To_Dataset &body= Your%20contribution%20is%20appreciated';
+		console.log(email_adress);
+		window.open(email_adress);
 	});
 	
 	function startDrawing(e) {
