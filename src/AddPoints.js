@@ -3,6 +3,8 @@ const AddPoints = (lines, w, h) => {
 	const arr = new Uint8ClampedArray(w*h*c);
 	const Ni = 10;
 
+	console.log(lines);
+
 	for (let i = 0; i < arr.length; i+=4) {
 		arr[i] = 255;
 		arr[i + 1] = 255;

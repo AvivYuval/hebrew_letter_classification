@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 // import React from "react";
 import BlogList from "./blogList";
@@ -17,6 +18,10 @@ const Home = () => {
   const [model, setModel] = useState(null);
   const [barYData, setBarYData] = useState([0,0]);
   const [data, setData] = useState([]);
+  const [letter, setLetter] = useState(0);
+
+
+  const chartRef = useRef();
 
   useEffect(() => {
     const LoadModel = async () => {
@@ -24,6 +29,7 @@ const Home = () => {
       model0 = await tfjs.loadLayersModel('https://raw.githubusercontent.com/AvivYuval/hebrew_letter_classification/main/files/pretrained_models/model.json');
       setModel(model0);
     }
+    setData([]);
     LoadModel();
   }, []);
 
@@ -35,8 +41,8 @@ const Home = () => {
 
     var img_tf = Preprocess(ImageData);
     
-    setData([...data, {coordinates: lines, class: 0}]);
-    console.log(data);
+    setData([...data, {coordinates: lines, class: letter}]);
+    // console.log(data);
 
     var result = await model.predict(img_tf);
     const result_arr = Array.from(result.dataSync());
@@ -45,6 +51,7 @@ const Home = () => {
 
     // var dataURL = document.getElementById("hidden_canvas").toDataURL();
 		// document.getElementById('img_dataset').innerHTML += "<img id='img' src="+dataURL+">";
+    canvasData.eraseAll();
   }
 
 
@@ -81,42 +88,6 @@ const Home = () => {
     },
     maintainAspectRatio: false
   };
-  
-  /*
-  [
-    { imageData: img, pathData: [[], [], []] },
-    { imageData: img, pathData: [[], [], []] },
-    { imageData: img, pathData: [[], [], []] }
-  ]
-
-
-  addSample () => {
-    setData();
-  }
-
-
-
-  
-      <Button onclick={addSample()}></Button>
-
-      <Samples data={data}/>
-
-
-
-      { error && <div>{ error }</div>}
-      { isPending && <div>loading...</div> }
-      {blogs && <BlogList blogs={blogs} title="All Blogs!" />}
-  */
-  
-  
-  // const { data: blogs, isPending, error} = useFetch('http://localhost:8000/blogs');
-  const chartRef = useRef();
-  /*
-  const onClick = (event) => {
-    console.log(getDatasetAtEvent(chartRef.current, event));
-  }
-  */
-//       <canvas id="hidden_canvas" width="200" height="200"></canvas>
 
   return (
     <div className="home">
@@ -136,10 +107,17 @@ const Home = () => {
 
           <button onClick={predict}>Predict</button>
           <button onClick={(e) => ExportData(data)}>Download</button>
+          <select name="classes_menu" id="classes_menu" onChange={(e) => setLetter(parseInt(e.target.value))} >
+            <option value="0">א</option>
+            <option value="1">ב</option>
+            <option value="2">ג</option>
+            <option value="3">ד</option>
+          </select>
         </div>
         
         <div className="bar_wrapper">
           <Bar className="barChart" ref={chartRef} data={barData} options={barOptions}/>
+          
         </div>
       </div>
 

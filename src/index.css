@@ -44,15 +44,17 @@
 .canvas_wrapper {
   border: 1px solid black;
   width: 200px;
-  height: 200px;
+  height: 250px;
 }
 
 .bar_wrapper {
   border: 1px solid green;
+  height: 250px;
 }
 
 .barChart {
-  width: 100%;
+  /* width: 200px; */
+  height: 200px;
 }
 
 /* blog previews / list */
