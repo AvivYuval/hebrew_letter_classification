@@ -23,7 +23,7 @@ channel = 3
 img_numpy = np.zeros((height, weight, channel), dtype=np.uint8)
 c = np.zeros([img_num, 200,200])
 img = np.zeros([img_num,1])
-kernel = np.ones([5,5])
+# kernel = np.ones([5,5])
 file_count = np.zeros(class_num)
 
 for folder in pathlib.Path(dataset_path).iterdir():
@@ -37,7 +37,7 @@ for i in range(len(data)): # For each sample.
         for k in range(len(data[i]['coordinates'][j]['points'])): # For each point.
              c[i][data[i]['coordinates'][j]['points'][k]['y']][data[i]['coordinates'][j]['points'][k]['x']] = 255
 #    img = cv2.cvtColor(c[i].astype('uint8'), cv2.COLOR_GRAY2BGR)
-    c[i] = convolve2d(c[i].astype(int), kernel.astype(int), mode='same').astype(int)
+    # c[i] = convolve2d(c[i].astype(int), kernel.astype(int), mode='same').astype(int)
     img = Image.fromarray(c[i]).convert("L")
     # img.show()
     print(file_count[data[i]['class']])

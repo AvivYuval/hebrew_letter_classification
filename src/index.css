@@ -52,6 +52,12 @@
   height: 250px;
 }
 
+.img_dataset {
+  border: 1px solid black;
+  height: 20px;
+  width: 20px;
+}
+
 .barChart {
   /* width: 200px; */
   height: 200px;

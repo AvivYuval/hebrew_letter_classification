@@ -26,6 +26,7 @@ const Home = () => {
   useEffect(() => {
     const LoadModel = async () => {
       var model0 = undefined;
+      // model0 = await tfjs.loadLayersModel('C:/Users/AvivYuval/Documents/projects/hebrew_letter_classification/resources/models/model_20221110-113217/model.json');
       model0 = await tfjs.loadLayersModel('https://raw.githubusercontent.com/AvivYuval/hebrew_letter_classification/main/files/pretrained_models/model.json');
       setModel(model0);
     }
@@ -38,9 +39,12 @@ const Home = () => {
     // let context = canvas.getContext("2d")
 
     var [ImageData, lines] = AddPoints(canvasData.lines, canvas.width, canvas.height);
+    // console.log(ImageData)
 
-    var img_tf = Preprocess(ImageData);
+    var [img_tf, img_tf_3d] = Preprocess(ImageData);
     
+    // console.log(img_tf);
+
     setData([...data, {coordinates: lines, class: letter}]);
     // console.log(data);
 
@@ -51,6 +55,12 @@ const Home = () => {
 
     // var dataURL = document.getElementById("hidden_canvas").toDataURL();
 		// document.getElementById('img_dataset').innerHTML += "<img id='img' src="+dataURL+">";
+		
+    // canvas.getContext('2d').putImageData(ImageData, 0, 0);
+		await tfjs.browser.toPixels(img_tf_3d, canvas);
+
+		var dataURL = canvas.toDataURL();
+		document.getElementById('img_dataset').innerHTML += "<img id='img' src="+dataURL+">";
     canvasData.eraseAll();
   }
 
@@ -64,7 +74,7 @@ const Home = () => {
   };
 
   const barData = {
-    labels: ['A', 'B'],
+    labels: ['א', 'ב', 'ג', 'ד' ],
     datasets: [
       {
         label: 'Rainfall',
@@ -122,7 +132,9 @@ const Home = () => {
       </div>
 
 
-      <div id="img_dataset"></div>
+      <div id="img_dataset">
+      
+      </div>
     </div>
   );
 }
