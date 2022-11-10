@@ -6,7 +6,7 @@ def parameters():
         "img_width_height": 100, # Image width/height [px].
         "learning_rate": 0.0005, # Model learning rate.
         "batch_size": 8, # Model batch size.
-        "epochs": 1, # 20 Model number of epocs.
+        "epochs": 50, # 20 Model number of epocs.
         "paths": {
             "dataset_path": '../../resources/hebrew_letter_class', # Dataset Path.
             "models_path": '../../resources/models/',

@@ -1,4 +1,3 @@
-# import sklearn.model_selection as ms
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import tensorflowjs as tfjs
@@ -45,12 +44,5 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=P["paths"]["log_di
 training_history = model.fit(x_train, y_train, batch_size=P["batch_size"], epochs=P["epochs"], validation_data=(x_test, y_test), callbacks=[tensorboard_callback])
 
 tfjs.converters.save_keras_model(model, P["paths"]["models_path"] + 'model_' + date_time) # Export model to json file.
-
-'''
-json_model = model.to_json()
-with open(P["paths"]["models_path"] + 'model_' + date_time + '.json', 'w') as json_file:
-    json_file.write(json_model)
-model.save_weights(P["paths"]["models_path"] + 'model_' + date_time + '.h5')
-'''
 
 train_loss, train_accuracy = evaluate_model(model, x_train, y_train, x_test, y_test, training_history, P)

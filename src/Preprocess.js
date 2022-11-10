@@ -4,7 +4,7 @@ const Preprocess = (img) => {
 	let tensor = tfjs.browser.fromPixels(img);
 	// console.log(tensor);
 
-	const resized = tfjs.image.resizeBilinear(tensor, [50, 50],false, true).toFloat();
+	const resized = tfjs.image.resizeBilinear(tensor, [100, 100],false, true).toFloat();
 	// console.log(resized);
 	const offset = tfjs.scalar(255.0);
 	var normalized = tfjs.scalar(1.0).sub(resized.div(offset));
