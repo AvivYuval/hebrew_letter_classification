@@ -26,9 +26,9 @@ const Home = () => {
   useEffect(() => {
     const LoadModel = async () => {
       var model0 = undefined;
-      model0 = await tfjs.loadLayersModel('http://localhost:8000/../files/pretrained_models/model.json');
+      // model0 = await tfjs.loadLayersModel('http://localhost:8000/../files/pretrained_models/model.json');
       // model0 = await tfjs.loadLayersModel('localstorage://C:/Users/AvivYuval/Documents/projects/hebrew_letter_classification/files/pretrained_models/model.json');
-      // model0 = await tfjs.loadLayersModel('https://raw.githubusercontent.com/AvivYuval/hebrew_letter_classification/main/files/pretrained_models/model.json');
+      model0 = await tfjs.loadLayersModel('https://raw.githubusercontent.com/AvivYuval/hebrew_letter_classification/main/files/pretrained_models/model.json');
       setModel(model0);
     }
     setData([]);

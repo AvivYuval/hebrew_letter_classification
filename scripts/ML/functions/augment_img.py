@@ -15,7 +15,7 @@ def augment_img(img, P):
         x[i] = cv2.dilate(x[i], ski.disk(random.randint(1, P["augmentation"]["conv2d_kernel_size"])))
         
         # x[i] = iaa.Affine(rotate=(P["augmentation"]["rotation"])).augment_image(x[i])
-        # x[i] = iaa.AdditiveGaussianNoise(scale=255*P["augmentation"]["noise_std"]).augment_image(x[i].astype(np.uint8))
+        x[i] = iaa.AdditiveGaussianNoise(scale=255*random.uniform(0,P["augmentation"]["noise_std"])).augment_image(x[i].astype(np.uint8))
         # x[i] = iaa.ElasticTransformation(alpha=P["augmentation"]["elastic_alpha"], sigma=P["augmentation"]["elastic_sigma"]).augment_image(x[i])
 
     # print(kernel)
